@@ -4,32 +4,25 @@ var gulp = require("gulp");
 var ts = require('gulp-typescript');
 var del = require('del');
 var sourcemaps = require('gulp-sourcemaps');
+var exec = require('child_process').exec;
 
 var tsProject = ts.createProject('tsconfig.json', {
     typescript: require('typescript')
 });
 
-gulp.task('clean', function() {
-    del(['lib/**/*.js', 'index.js', 'cli.js']).then(function (paths) {
+gulp.task('clean', function(cb) {
+    del(['**/*.js','**/*.map','!gulpfile.js', '!node_modules/**/*.js', '!node_modules/**/*.map']).then(function (paths) {
         console.log('Deleted files/folders:\n', paths.join('\n'));
+        cb();
     });
 });
 
-gulp.task('build-dev',['clean'], function() {
-    var tsResult = tsProject.src()
-        .pipe(sourcemaps.init()) // This means sourcemaps will be generated
-        .pipe(ts(tsProject));
+gulp.task('build-dev',['clean'], function(cb) {
 
-    return tsResult.js
-        .pipe(sourcemaps.write()) // Now the sourcemaps are added to the .js file
-        .pipe(gulp.dest('./'));
-});
+    exec('node_modules/.bin/tsc -m commonjs', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
 
-gulp.task('build-release',['clean'], function() {
-    var tsResult = tsProject.src()
-        .pipe(ts(tsProject));
-
-    return tsResult.js
-        .pipe(sourcemaps.write()) // Now the sourcemaps are added to the .js file
-        .pipe(gulp.dest('./'));
 });

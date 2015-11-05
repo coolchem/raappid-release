@@ -21,7 +21,7 @@
     }
   ],
   "engines": {
-    "node": ">= 0.12"
+    "node": ">= 4.0.0"
   },
   "keywords": [
     "development"
@@ -30,12 +30,12 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
-    "code": "^1.2.1",
+    "chai": "^3.4.0",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.9.2",
-    "lab": "^5.1.0",
+    "mocha": "^2.3.3",
     "typescript": "^1.6.2"
   },
   "bin": {
@@ -48,6 +48,6 @@
   ],
   "scripts": {
     "prepublish": "npm test",
-    "test": "gulp build && lab -c -v"
+    "test": "gulp build-dev && mocha"
   }
 }
