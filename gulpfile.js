@@ -3,7 +3,6 @@
 var gulp = require("gulp");
 var ts = require('gulp-typescript');
 var del = require('del');
-var sourcemaps = require('gulp-sourcemaps');
 var exec = require('child_process').exec;
 
 var tsProject = ts.createProject('tsconfig.json', {
@@ -19,7 +18,7 @@ gulp.task('clean', function(cb) {
 
 gulp.task('build-dev',['clean'], function(cb) {
 
-    exec('node_modules/.bin/tsc -m commonjs', function (err, stdout, stderr) {
+    exec('node_modules/.bin/tsc -m commonjs -t es5 --moduleResolution node', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
         cb(err);

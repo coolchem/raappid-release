@@ -6,6 +6,7 @@ node_js:
 install:
     - npm install --global gulp
     - npm install
+    - tsd install
 after_script:
   - npm run coveralls
 git:

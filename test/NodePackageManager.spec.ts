@@ -73,7 +73,7 @@ describe('NodePackageManager Test cases', () => {
 
         it('should reject promise if the version type is not Major, Minor or Patch', function(done) {
 
-            npm.bump("").then((result) =>{}, (error:string) =>{
+            npm.bump("").then(null, (error:string) =>{
                 expect(error).to.equal(NodePackageManager.ERROR_VERSION_TYPE_NOT_SUPPORTED);
                 done();
             })

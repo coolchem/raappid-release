@@ -3,7 +3,10 @@ node_modules
 **/*.iml
 .DS_STORE
 index.js
-**/*.js
+lib/**/*.js
+test/**/*.js
+bin/*.js
 cli.js
 **/*.map
 typings
+coverage
