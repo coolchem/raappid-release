@@ -5,9 +5,10 @@ node_js:
   - "4.0.0"
 install:
     - npm install --global gulp
+    - npm install -g tsd
     - npm install
 before_script:
-    - node_modules/.bin/tsd install
+  - tsd install
 after_script:
   - npm run coveralls
 git:
