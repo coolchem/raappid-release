@@ -3,7 +3,7 @@ node_modules
 **/*.iml
 .DS_STORE
 index.js
-lib/**/*.js
+**/*.js
 cli.js
 **/*.map
 typings

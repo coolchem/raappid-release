@@ -25,6 +25,9 @@
     },
     "chai/chai.d.ts": {
       "commit": "001ca36ba58cef903c4c063555afb07bbc36bb58"
+    },
+    "semver/semver.d.ts": {
+      "commit": "001ca36ba58cef903c4c063555afb07bbc36bb58"
     }
   }
 }

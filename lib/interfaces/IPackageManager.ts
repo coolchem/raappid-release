@@ -6,5 +6,5 @@ export interface IPackageManager
     name:string;
     configFileName:string;
     version():string;
-    bump(version:string):Promise<any>;
+    bump(version:string):Promise<string>;
 }

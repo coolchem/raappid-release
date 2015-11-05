@@ -27,7 +27,8 @@
     "development"
   ],
   "dependencies": {
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "semver": "^5.0.3"
   },
   "devDependencies": {
     "chai": "^3.4.0",
@@ -48,6 +49,7 @@
   ],
   "scripts": {
     "prepublish": "npm test",
-    "test": "gulp build-dev && mocha"
+    "build-dev": "gulp build-dev",
+    "test": " npm run build-dev && mocha"
   }
 }

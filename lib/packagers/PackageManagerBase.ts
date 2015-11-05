@@ -11,5 +11,5 @@ export abstract class PackageManagerBase implements IPackageManager
 
     abstract version():string;
 
-    abstract bump(version:string):Promise<any>;
+    abstract bump(version:string):Promise<string>;
 }
