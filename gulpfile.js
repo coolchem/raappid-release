@@ -1,13 +1,8 @@
 
 
 var gulp = require("gulp");
-var ts = require('gulp-typescript');
 var del = require('del');
 var exec = require('child_process').exec;
-
-var tsProject = ts.createProject('tsconfig.json', {
-    typescript: require('typescript')
-});
 
 gulp.task('clean', function(cb) {
     del(['**/*.js','**/*.map','!gulpfile.js', '!node_modules/**/*.js', '!node_modules/**/*.map']).then(function (paths) {
