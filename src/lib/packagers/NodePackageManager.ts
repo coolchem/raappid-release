@@ -1,25 +1,30 @@
 
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/tsd.d.ts" />
 
-import {PackageManagerBase} from "./PackageManagerBase"
+import {IPackageManager} from "../interfaces/IPackageManager";
 
 var fs = require('fs');
 var path = require('path');
 var semver = require('semver');
 
-export class NodePackageManager extends PackageManagerBase
+export class NodePackageManager implements IPackageManager
 {
     public static ERROR_VERSION_TYPE_NOT_SUPPORTED:string = "The Version type not supported. supported version types ar major, minor and patch";
 
-    protected pkg:any;
+    name:string = "Node Package Manager";
+    configFileName:string = "package.json";
+
+    protected pkg:any = null;
     protected configFilePath:string;
 
     constructor() {
-        super();
-        this.name = "Node Package Manager";
-        this.configFileName = "package.json";
         this.configFilePath = path.join(process.cwd(), this.configFileName);
         this.pkg = require(this.configFilePath);
+    }
+
+
+    isValid():boolean {
+        return this.pkg !== null || this.pkg !== undefined;
     }
 
     version():string {

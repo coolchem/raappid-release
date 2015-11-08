@@ -2,11 +2,9 @@ node_modules
 .idea
 **/*.iml
 .DS_STORE
-index.js
-lib/**/*.js
+src/**/*.js
 test/**/*.js
-bin/*.js
-cli.js
 **/*.map
 typings
 coverage
+dist

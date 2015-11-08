@@ -1,8 +1,10 @@
 
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/tsd.d.ts" />
 
 export interface IRepository
 {
+    repositoryType:string;
+    isValid():boolean;
     add(fileNames:string[]):Promise<any>;
     commit(commitMessage:string):Promise<any>;
     tag(tag:string):Promise<any>;
