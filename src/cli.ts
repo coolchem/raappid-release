@@ -30,14 +30,14 @@ function run():void {
 
         }, function(error){
 
-            showInstructions(error);
+            showInstructions();
         })
     }
 
 
 }
 
-function showInstructions(whyShowingInstructions:string = ""){
+function showInstructions(){
     console.log("instructions go here")
 }
 

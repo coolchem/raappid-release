@@ -3,49 +3,52 @@
 
 import {IPackageManager} from "../interfaces/IPackageManager";
 
-var fs = require('fs');
+import fs = require('fs');
 var path = require('path');
-var semver = require('semver');
+var exec = require('child_process').exec;
 
 export class NodePackageManager implements IPackageManager
 {
-    public static ERROR_VERSION_TYPE_NOT_SUPPORTED:string = "The Version type not supported. supported version types ar major, minor and patch";
+
+    public static ERROR_EMPTY_NULL_UNDEFINED_VERSION:string = "The Version cannot be empty or null or undefined";
+
+    public static ERROR_INVALID_VERSION_TYPE:string = "The Version type not supported. supported version types | major | minor | patch | premajor | preminor | prepatch | prerelease";
 
     name:string = "Node Package Manager";
     configFileName:string = "package.json";
 
-    protected pkg:any = null;
-    protected configFilePath:string;
-
-    constructor() {
-        this.configFilePath = path.join(process.cwd(), this.configFileName);
-        this.pkg = require(this.configFilePath);
-    }
-
+    protected supportedVersionTypes:string[] = [ 'major','minor','patch' ,'premajor' ,'preminor' ,'prepatch' , 'prerelease']
 
     isValid():boolean {
-        return this.pkg !== null || this.pkg !== undefined;
+        var pkg = require(path.resolve(this.configFileName));
+        return pkg !== null || pkg !== undefined;
     }
 
     version():string {
-        return this.pkg.version;
+        var pkg:any = JSON.parse(fs.readFileSync(path.resolve(this.configFileName), "utf8"));
+        if(pkg !== null || pkg !== undefined)
+            return pkg.version;
+        return "";
     }
 
     bump(version:string):Promise<string> {
-        return new Promise((resolve,reject) =>{
+        return new Promise((resolve,reject)=>{
 
-            var newVersion:string = semver.inc(this.pkg.version, version.toLowerCase());
-
-            if(!newVersion)
+            if(version === "" || version === null || version === undefined)
             {
-                throw (NodePackageManager.ERROR_VERSION_TYPE_NOT_SUPPORTED);
+                throw (NodePackageManager.ERROR_EMPTY_NULL_UNDEFINED_VERSION)
             }
 
-            this.pkg.version = newVersion;
-
-            fs.writeFileSync(this.configFilePath, JSON.stringify(this.pkg, null, '  ') + '\n');
-
-            resolve(this.pkg.version);
+            if(this.supportedVersionTypes.indexOf(version) == -1)
+            {
+                throw (NodePackageManager.ERROR_INVALID_VERSION_TYPE)
+            }
+            exec('npm version ' + version,(error: Error, stdout: Buffer, stderr: Buffer) => {
+                if(error)
+                    reject(error);
+                else
+                    resolve(this.version());
+            });
         });
     }
 }

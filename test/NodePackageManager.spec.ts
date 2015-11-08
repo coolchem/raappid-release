@@ -9,40 +9,32 @@ var fs = require('fs');
 var path = require('path');
 var pkg:any = require(path.resolve('./package.json'));
 
-var testPackagePath:string = path.resolve(__dirname,'./package.json');
+var currentDirectory = process.cwd();
+var testDir:string = path.resolve("./test");
 
-
-class MockNodePackageManager extends NodePackageManager
-{
-    constructor() {
-        super();
-        this.configFilePath = testPackagePath;
-        this.pkg = require(this.configFilePath);
-    }
-}
-
-
-function getPackage():any{
-    return require(testPackagePath);
+function getPackageVersion():string{
+    var pkg:any = JSON.parse(fs.readFileSync(path.resolve("./package.json"), "utf8"));
+    return pkg.version;
 }
 
 describe('NodePackageManager Test cases', () => {
 
     var expect = chai.expect;
-    var npm:MockNodePackageManager;
+    var npm:NodePackageManager;
     var currentNpm:NodePackageManager;
 
     before(() =>{
-      fs.writeFileSync(testPackagePath, JSON.stringify({version:"0.0.1"}, null, '  ') + '\n');
-      npm = new MockNodePackageManager();
-      currentNpm = new NodePackageManager();
-
+        process.chdir(testDir);
+        console.log("changing Directory to: " + process.cwd());
+        fs.writeFileSync("package.json",JSON.stringify({version:"0.0.1"}, null, '  ') + '\n');
+        npm = new NodePackageManager();
     });
 
     after(() =>{
 
-        del.sync([testPackagePath]);
-
+        del.sync(["package.json"]);
+        process.chdir(currentDirectory);
+        console.log("changing Directory back to: " + process.cwd())
     });
 
     describe('isValid()', () => {
@@ -65,7 +57,10 @@ describe('NodePackageManager Test cases', () => {
 
         it('should return the version number of current package', function(done) {
 
+            process.chdir(currentDirectory);
+            currentNpm = new NodePackageManager();
             expect(currentNpm.version()).to.equal(pkg.version);
+            process.chdir(testDir);
             done();
         });
 
@@ -75,16 +70,57 @@ describe('NodePackageManager Test cases', () => {
 
     describe('bump(version)', () => {
 
+        beforeEach(()=>{
+            npm = new NodePackageManager();
+            del.sync(["package.json"]);
+            fs.writeFileSync("package.json",JSON.stringify({version:"0.0.1"}, null, '  ') + '\n');
+        });
+
         it('should return a promise', function(done) {
             expect(npm.bump("")).to.be.instanceOf(Promise);
             done();
         });
 
 
-        it('should reject promise if the version type is not Major, Minor or Patch', function(done) {
+        it('should reject if empty version', function(done) {
 
-            npm.bump("").then(null, (error:string) =>{
-                expect(error).to.equal(NodePackageManager.ERROR_VERSION_TYPE_NOT_SUPPORTED);
+            npm.bump("").then((result:string)=>{
+                chai.assert.fail("should not have been resolved");
+            }, (error:Error) =>{
+                expect(error).to.equal(NodePackageManager.ERROR_EMPTY_NULL_UNDEFINED_VERSION);
+                done();
+            })
+
+        });
+
+        it('should reject if null version', function(done) {
+
+            npm.bump("").then((result:string)=>{
+                chai.assert.fail("should not have been resolved");
+            }, (error:Error) =>{
+                expect(error).to.equal(NodePackageManager.ERROR_EMPTY_NULL_UNDEFINED_VERSION);
+                done();
+            })
+
+        });
+
+        it('should reject if undefined', function(done) {
+
+            npm.bump("").then((result:string)=>{
+                chai.assert.fail("should not have been resolved");
+            }, (error:Error) =>{
+                expect(error).to.equal(NodePackageManager.ERROR_EMPTY_NULL_UNDEFINED_VERSION);
+                done();
+            })
+
+        });
+
+        it('should reject if invalid version type', function(done) {
+
+            npm.bump("aadsad").then((result:string)=>{
+                chai.assert.fail("should not have been resolved");
+            }, (error:Error) =>{
+                expect(error).to.equal(NodePackageManager.ERROR_INVALID_VERSION_TYPE);
                 done();
             })
 
@@ -94,7 +130,11 @@ describe('NodePackageManager Test cases', () => {
         it('should bump patch version', function(done) {
             npm.bump("patch").then((result:string) =>{
                 expect(result).to.equal("0.0.2");
-                expect(result).to.equal(getPackage().version);
+                var pkgVersion = getPackageVersion();
+                expect(result).to.equal(pkgVersion);
+                done();
+            }).catch((error:Error)=>{
+                chai.assert.fail("should not have failed",error.message);
                 done();
             })
         });
@@ -103,7 +143,10 @@ describe('NodePackageManager Test cases', () => {
         it('should bump minor version', function(done) {
             npm.bump("minor").then((result:string) =>{
                 expect(result).to.equal("0.1.0");
-                expect(result).to.equal(getPackage().version);
+                expect(result).to.equal(getPackageVersion());
+                done();
+            }).catch((error:Error)=>{
+                chai.assert.fail("should not have failed",error.message);
                 done();
             })
         });
@@ -111,7 +154,10 @@ describe('NodePackageManager Test cases', () => {
         it('should bump major version', function(done) {
             npm.bump("major").then((result:string) =>{
                 expect(result).to.equal("1.0.0");
-                expect(result).to.equal(getPackage().version); //making sure the package being managed has also changed
+                expect(result).to.equal(getPackageVersion()); //making sure the package being managed has also changed
+                done();
+            }).catch((error:Error)=>{
+                chai.assert.fail("should not have failed",error.message);
                 done();
             })
         });

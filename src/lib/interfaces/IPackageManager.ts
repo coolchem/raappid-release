@@ -8,5 +8,5 @@ export interface IPackageManager
 
     isValid():boolean;
     version():string;
-    bump(version:string):Promise<string>;
+    bump(version:string):Promise<any>;
 }

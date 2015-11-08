@@ -27,8 +27,7 @@
     "development"
   ],
   "dependencies": {
-    "minimist": "^1.2.0",
-    "semver": "^5.0.3"
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^3.4.0",
