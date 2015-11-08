@@ -1,7 +1,7 @@
 /// <reference path="../typings/tsd.d.ts" />
 
 
-import {NodePackageManager} from "../lib/packagers/NodePackageManager"
+import {NodePackageManager} from "../src/lib/packagers/NodePackageManager"
 
 var chai = require('chai');
 var del = require('del');
@@ -42,6 +42,16 @@ describe('NodePackageManager Test cases', () => {
     after(() =>{
 
         del.sync([testPackagePath]);
+
+    });
+
+    describe('isValid()', () => {
+
+        it('should return true if the package is valid node package', function(done) {
+
+            expect(npm.isValid()).to.equal(true);
+            done();
+        });
 
     });
 
