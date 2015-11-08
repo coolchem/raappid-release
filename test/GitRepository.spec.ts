@@ -18,6 +18,8 @@ function initializeRepository(done:Function):void
 {
     fs.writeFileSync("package.json",JSON.stringify({version:"0.0.1"}, null, '  ') + '\n');
     execSync("git init");
+    execSync('git config user.email "v@v.com"');
+    execSync('git config user.name "v"');
     execSync("git add package.json");
     execSync('');
     exec('git commit -m "test commit"', function (err, stdout, stderr) {
