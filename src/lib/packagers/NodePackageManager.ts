@@ -34,7 +34,7 @@ export class NodePackageManager implements IPackageManager
     bump(version:string):Promise<string> {
         return new Promise((resolve,reject) =>{
 
-            var newVersion:string = semver.inc(this.pkg.version, version.toLowerCase())
+            var newVersion:string = semver.inc(this.pkg.version, version.toLowerCase());
 
             if(!newVersion)
             {

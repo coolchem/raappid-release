@@ -3,7 +3,6 @@
 
 import {IRepository} from "../interfaces/IRepository";
 
-var execSync = require('child_process').execSync;
 var exec = require('child_process').exec;
 
 import fs = require('fs');
@@ -14,33 +13,47 @@ export class GitRepository implements IRepository
     repositoryType:string = "git";
 
     isValid():boolean {
-        var dir:any;
         try
         {
-           dir = fs.readdirSync(process.cwd()+"/.git");
+          fs.readdirSync(process.cwd()+"/.git");
 
         }catch(e)
         {
             return false
         }
 
-
         return true;
     }
 
     add(fileNames:string[]):Promise<any> {
-        return null;
+        return this.runCommand('git add ' + fileNames.join(' '))
     }
 
     commit(commitMessage:string):Promise<any> {
-        return null;
+        return this.runCommand('git commit -m ' + '"'+commitMessage +'"');
     }
 
     tag(tag:string):Promise<any> {
-        return null;
+        return this.runCommand('git tag -a ' + tag + ' -m "Tag ' + tag + '"');
     }
 
-    push(tagsOnly:boolean):Promise<any> {
-        return null;
+    push(tagsOnly:boolean = false):Promise<any> {
+
+        if(!tagsOnly)
+            return this.runCommand("git push");
+
+        return this.runCommand("git push --tags");
+    }
+
+    private runCommand(cmd):Promise<any>
+    {
+        return new Promise((resolve,reject)=>{
+            exec(cmd,(err, stdout, stderr) => {
+                if(err)
+                    reject(err);
+                else
+                    resolve(stdout);
+            });
+        });
     }
 }

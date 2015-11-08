@@ -23,8 +23,6 @@ function initializeRepository(done:Function):void
     execSync("git add package.json");
     execSync('');
     exec('git commit -m "test commit"', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
         done();
     });
 }
@@ -59,14 +57,14 @@ describe('GitRepository Test cases', () => {
             initializeRepository(done);
         });
 
-        it('should throe error if not a git repository', function(done) {
+        it('should return false if not a git repository', function(done) {
 
             unInitializeRepository();
             expect(git.isValid()).to.equal(false);
             done();
         });
 
-        it('should resolve to true if valid git repository', function(done) {
+        it('should return true if valid git repository', function(done) {
             expect(git.isValid()).to.equal(true);
             done();
         });
@@ -75,25 +73,41 @@ describe('GitRepository Test cases', () => {
 
     describe('add()', () => {
         it('should add filenames provided', function(done) {
-            done();
+
+            fs.writeFileSync("package.json",JSON.stringify({version:"0.0.2"}, null, '  ') + '\n');
+            git.add(["package.json"]).then((result)=>{
+                done();
+            });
         });
+
+        it('should handle git error while adding files', function(done) {
+
+            git.add(["package1.json"]).catch((error)=>{
+                done();
+            });
+        });
+
     });
 
     describe('commit()', () => {
 
         it('should commit any files marked for commit', function(done) {
-            done();
-        });
-
-        it('should commit with right commit message', function(done) {
-            done();
+            git.commit("test commit").then((result)=>{
+                done()
+            })
         });
     });
 
     describe('tag()', () => {
 
         it('should sucessfully create tag for the repository', function(done) {
-            done();
+            git.tag("v1").then((result)=>{
+                exec("git tag",(err,stdOut,stdErr)=>{
+
+                    done()
+                });
+
+            })
         });
 
     });
@@ -101,18 +115,16 @@ describe('GitRepository Test cases', () => {
     describe('push()', () => {
 
         it('should reject if no remote repository configured', function(done) {
-            done();
+            git.push().catch((error)=>{
+                done();
+            })
         });
 
-        it('should resolve successfully if a remote repository is configured and the changes are pushed', function(done) {
-            done();
+        it('should reject if no remote repository configured while pusing tags', function(done) {
+            git.push(true).catch((error)=>{
+                done();
+            })
         });
-
-        it('should allow to push tags only', function(done) {
-            done();
-        });
-
-
     });
 });
 
