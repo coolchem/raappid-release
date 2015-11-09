@@ -19,15 +19,26 @@ function run():void {
     else
     {
         var releaseType:string = "";
+
         if(argv._.length > 0)
+        {
             releaseType = argv._[0];
 
-        doRelease(releaseType).then((successMessage)=>{
-            process.exit(0);
-        }, (error)=>{
-            console.log(error);
-            process.exit(1);
-        })
+            doRelease(releaseType).then((successMessage)=>{
+
+                process.exit(0);
+
+            }, (error)=>{
+
+                console.log(error);
+                process.exit(1);
+
+            })
+        }
+        else
+        {
+            showInstructions();
+        }
 
     }
 }
