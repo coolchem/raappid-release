@@ -43,7 +43,7 @@ export class NodePackageManager implements IPackageManager
             {
                 throw (NodePackageManager.ERROR_INVALID_VERSION_TYPE)
             }
-            exec('npm version ' + version,(error: Error, stdout: Buffer, stderr: Buffer) => {
+            exec('npm version ' + version +' -m "Release v%s"',(error: Error, stdout: Buffer, stderr: Buffer) => {
                 if(error)
                     reject(error);
                 else
