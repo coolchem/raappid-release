@@ -1,7 +1,7 @@
-/// <reference path="../typings/tsd.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 
 
-import {GitRepository} from "../src/lib/repositories/GitRepository"
+import {GitRepository} from "../../src/lib/repositories/GitRepository"
 import fs = require('fs');
 import del = require('del');
 import chai = require('chai');
@@ -33,6 +33,9 @@ function unInitializeRepository():void
 }
 describe('GitRepository Test cases', () => {
 
+
+    var git:GitRepository = new GitRepository();
+
     before(function(done){
 
         del.sync([tempDir],{force:true});
@@ -49,7 +52,6 @@ describe('GitRepository Test cases', () => {
         console.log("changing Directory back to: " + process.cwd())
     });
 
-    var git:GitRepository = new GitRepository();
 
     describe('isValid()', () => {
 

@@ -1,7 +1,7 @@
-/// <reference path="../typings/tsd.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 
 
-import {NodePackageManager} from "../src/lib/packagers/NodePackageManager"
+import {NodePackageManager} from "../../src/lib/packagers/NodePackageManager"
 
 var chai = require('chai');
 var del = require('del');

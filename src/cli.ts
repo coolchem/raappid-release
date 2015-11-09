@@ -11,8 +11,6 @@ process.env.INIT_CWD = process.cwd();
 
 function run():void {
 
-    console.log(argv);
-
     //check if --help or -h show instructions and exit
     if(argv.help === true || argv.h === true)
     {
@@ -20,21 +18,18 @@ function run():void {
     }
     else
     {
-
         var releaseType:string = "";
         if(argv._.length > 0)
             releaseType = argv._[0];
 
-        doRelease(releaseType).then(function(){
-
-
-        }, function(error){
-
-            showInstructions();
+        doRelease(releaseType).then((successMessage)=>{
+            process.exit(0);
+        }, (error)=>{
+            console.log(error);
+            process.exit(1);
         })
+
     }
-
-
 }
 
 function showInstructions(){
