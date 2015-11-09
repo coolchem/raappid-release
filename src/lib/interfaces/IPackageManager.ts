@@ -6,7 +6,7 @@ export interface IPackageManager
     name:string;
     configFileName:string;
 
-    isValid():boolean;
+    isValid():Promise<boolean>;
     version():string;
     bump(version:string):Promise<any>;
 }

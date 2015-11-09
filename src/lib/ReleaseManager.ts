@@ -7,33 +7,20 @@ import {GitRepository} from "./repositories/GitRepository";
 
 export class ReleaseManager{
 
-    public static ERROR_GIT_NOT_INSTALLED:string = "Git not installed installed on the OS. " +
-    "Please visit https://git-scm.com/downloads to download and install git ";
-
-    public static ERROR_NO_PACKAGE_MANAGER_FOUND:string = "Project not configured for package management. Please check you have valid package.json" +
-    "file at the root of the project";
-
-    public static ERROR_NO_GIT_REPOSITORY_FOUND:string = "No repoitory found. Please make sure the project is valid git repository" +
-    "file at the root of the project";
-
     protected npm:NodePackageManager = new NodePackageManager();
     protected git:GitRepository = new GitRepository();
 
-    canRelease():Promise<any>{
+    canRelease():Promise<boolean>{
 
-        return new Promise((resolve)=>{
+        return new Promise((resolve,reject)=>{
 
-            if(!this.npm.isValid())
-            {
-                throw (ReleaseManager.ERROR_NO_PACKAGE_MANAGER_FOUND);
-            }
-
-            if(!this.git.isValid())
-            {
-                throw (ReleaseManager.ERROR_NO_GIT_REPOSITORY_FOUND)
-            }
-
-            resolve();
+            this.npm.isValid().then((valid:boolean)=>{
+                return this.git.isValid()
+            }).then((valid:boolean)=>{
+                resolve(valid);
+            }).catch((error)=>{
+                reject(error);
+            });
         })
 
     }

@@ -39,10 +39,20 @@ describe('NodePackageManager Test cases', () => {
 
     describe('isValid()', () => {
 
-        it('should return true if the package is valid node package', function(done) {
+        it('should reject if the package is not valid node package', function(done) {
+            del.sync(["package.json"]);
+            npm.isValid().catch((error)=>{
+                expect(error).to.equal(NodePackageManager.ERROR_NO_PACKAGE_MANAGER_FOUND);
+                done();
+            })
+        });
 
-            expect(npm.isValid()).to.equal(true);
-            done();
+        it('should resolve to true if the package is valid node package', function(done) {
+            fs.writeFileSync("package.json",JSON.stringify({version:"0.0.1"}, null, '  ') + '\n');
+            npm.isValid().then((valid)=>{
+                expect(valid).to.equal(true);
+                done();
+            })
         });
 
     });

@@ -59,16 +59,21 @@ describe('GitRepository Test cases', () => {
             initializeRepository(done);
         });
 
-        it('should return false if not a git repository', function(done) {
+        it('should reject if not a git repository', function(done) {
 
             unInitializeRepository();
-            expect(git.isValid()).to.equal(false);
-            done();
+            git.isValid().catch((error)=>{
+                expect(error).to.equal(GitRepository.ERROR_NO_GIT_REPOSITORY_FOUND)
+                done();
+            });
+
         });
 
-        it('should return true if valid git repository', function(done) {
-            expect(git.isValid()).to.equal(true);
-            done();
+        it('should resolve to true if valid git repository', function(done) {
+            git.isValid().then((valid)=>{
+                expect(valid).to.equal(true);
+                done();
+            })
         });
 
     });

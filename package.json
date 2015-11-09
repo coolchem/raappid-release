@@ -27,7 +27,8 @@
     "development"
   ],
   "dependencies": {
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "which": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^3.4.0",

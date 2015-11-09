@@ -4,7 +4,7 @@
 export interface IRepository
 {
     repositoryType:string;
-    isValid():boolean;
+    isValid():Promise<boolean>;
     add(fileNames:string[]):Promise<any>;
     commit(commitMessage:string):Promise<any>;
     tag(tag:string):Promise<any>;
