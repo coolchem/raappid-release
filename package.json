@@ -1,7 +1,7 @@
 {
   "name": "raappid-release",
   "description": "Release system for all the Raappid projects",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": {
     "name": "\"coolchem\" Varun Reddy Nalagatla"
   },
