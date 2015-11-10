@@ -44,9 +44,7 @@
     "raappid-release": "dist/bin/raappid-release.js"
   },
   "files": [
-    "cli.js",
-    "index.js",
-    "lib"
+    "dist"
   ],
   "scripts": {
     "prepublish": "npm test && npm run build-release",
