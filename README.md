@@ -34,10 +34,11 @@ npm install --save-dev raappid-release
 2. Make sure all the files are commited in the repository and then run the cmd below
 
     ```
-    raappid-release patch
-
-    //output
-    will release a patch version. i.e if the perivios project version was v0,0,5 the new release version
-    will be v0.0.6
+    raappid-release <release-type>
     ```
-    please refer to [npm version](https://docs.npmjs.com/cli/version) for types of release versioning supported currently
+    #### Release types supported
+    major | minor | patch | premajor | preminor | prepatch | prerelease
+
+### Todo
+
+- Request user for confirmation before release.

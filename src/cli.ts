@@ -37,6 +37,7 @@ function run():void {
         }
         else
         {
+            console.log("\n Cannot Recognize the type of release. Please see instructions below");
             showInstructions();
         }
 
@@ -44,7 +45,9 @@ function run():void {
 }
 
 function showInstructions(){
-    console.log("instructions go here")
+    console.log('\n Options:\n\n raapid-release [release-type]' +
+        '      --- Give type of release:  major | minor | patch | premajor | preminor | prepatch | prerelease\n'
+    );
 }
 
 

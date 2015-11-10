@@ -40,7 +40,7 @@ export class ReleaseManager{
             }).then(()=>{
                 return this.git.push(true);
             }).then(()=>{
-                resolve();
+                resolve("Successfully released project with version v" + newVersion);
             }).catch((error)=>{
                 reject(error);
             })
