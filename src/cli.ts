@@ -26,6 +26,7 @@ function run():void {
 
             doRelease(releaseType).then((successMessage)=>{
 
+                console.log(successMessage);
                 process.exit(0);
 
             }, (error)=>{
