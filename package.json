@@ -54,7 +54,7 @@
     "build-release": "gulp build-release",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "test": " npm run build-dev && istanbul cover _mocha test/**/*.js --recursive",
-    "preversion": "npm test",
+    "preversion": "npm test && gulp clean",
     "version": "npm run build-release"
   }
 }
