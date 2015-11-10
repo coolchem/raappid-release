@@ -4,9 +4,9 @@
 
 Raappid release is a CLI tool which is designed to help quickly release a project.
 
-#### Supports for Projects with
+#### Supports projects with
 
-- Node package manager(package.json must be at the root of the project)
+- Node package manager (package.json must be at the root of the project)
 - Git repository.
 
 ### Install
