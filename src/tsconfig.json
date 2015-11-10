@@ -7,10 +7,10 @@
     "noLib": false,
     "noEmitOnError":true,
     "emitDecoratorMetadata":true,
-    "sourceMap": true,
     "experimentalDecorators":true
   },
   "exclude": [
+    "tsconfig.json",
     "node_modules"
   ]
 }

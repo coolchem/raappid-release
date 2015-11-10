@@ -49,12 +49,12 @@
     "lib"
   ],
   "scripts": {
-    "prepublish": "npm test",
+    "prepublish": "npm test && npm run build-release",
     "build-dev": "gulp build-dev",
+    "build-release": "gulp build-release",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "test": " npm run build-dev && istanbul cover _mocha test/**/*.js --recursive",
     "preversion": "npm test",
-    "version": "npm run build-release && git add -A dist",
-    "postversion": "git push && git push --tags"
+    "version": "npm run build-release"
   }
 }

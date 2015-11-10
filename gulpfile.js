@@ -23,7 +23,7 @@ gulp.task('build-dev',['clean'], function(cb) {
 
 gulp.task('build-release',['clean'], function(cb) {
 
-    exec('node_modules/.bin/tsc -p src --removeComments --outDir dist', function (err, stdout, stderr) {
+    exec('node_modules/.bin/tsc -p src --outDir dist', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
         cb(err);
